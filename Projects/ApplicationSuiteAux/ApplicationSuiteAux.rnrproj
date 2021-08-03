@@ -48,6 +48,11 @@
       <Name>SettleAux</Name>
       <Link>Classes\SettleAux</Link>
     </Content>
+    <Content Include="AxClass\VendTransAux_Extension">
+      <SubType>Content</SubType>
+      <Name>VendTransAux_Extension</Name>
+      <Link>Classes\VendTransAux_Extension</Link>
+    </Content>
     <Content Include="AxClass\WHSWorkTableAux_Extension">
       <SubType>Content</SubType>
       <Name>WHSWorkTableAux_Extension</Name>

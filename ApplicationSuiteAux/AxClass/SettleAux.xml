@@ -98,8 +98,8 @@ public class SettleAux
                 CustVendSettlementInterface intf = custVendSettlement.custVendSettlementInterface();
 
                 intf.markThisAndRelatedOffsets(specTransManager, findVendTrans.CurrencyCode);
-                
-                if (VendTrans::reverseTransact(vendTable, null, settleDatePrinc::DateOfPayment, vendSettlement.TransDate))
+
+                if (VendTrans::reverseTransactAux(vendTable, null, settleDatePrinc::DateOfPayment, vendSettlement.TransDate))
                 {
                     specTransManager.deleteAll();
                 }
