@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxLabelFile xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>ApplicationSuiteAux_en-US</Name>
+	<LabelContentFileName>ApplicationSuiteAux.en-US.label.txt</LabelContentFileName>
+	<LabelFileId>ApplicationSuiteAux</LabelFileId>
+	<RelativeUriInModelStore>ApplicationSuiteAux\ApplicationSuiteAux\AxLabelFile\LabelResources\en-US\ApplicationSuiteAux.en-US.label.txt</RelativeUriInModelStore>
+</AxLabelFile>

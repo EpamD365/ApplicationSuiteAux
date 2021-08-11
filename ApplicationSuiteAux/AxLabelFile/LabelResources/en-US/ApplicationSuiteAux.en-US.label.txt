@@ -1,0 +1,10 @@
+﻿EDTEmailFromLabel=From
+EDTEmailToLabel=To
+EDTEmailLabel=E-mail
+EDTEmailCCLabel=CC
+EDTEmailFromHelpText=E-mail from address
+EDTEmailToHelpText=E-mail to address
+EDTEmailHelpText=E-mail
+EDTEmailCCHelpText=E-mail CC address
+EDTSaveInPrintArchiveLabel=Save in print archive?
+EDTSaveInPrintArchiveHelpText=Save item in print archive?
