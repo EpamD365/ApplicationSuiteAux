@@ -51,6 +51,11 @@
       <Name>CustVendPDCRegisterTableAux_Extension</Name>
       <Link>Classes\CustVendPDCRegisterTableAux_Extension</Link>
     </Content>
+    <Content Include="AxClass\VendParametersAux_Extension">
+      <SubType>Content</SubType>
+      <Name>VendParametersAux_Extension</Name>
+      <Link>Classes\VendParametersAux_Extension</Link>
+    </Content>
     <Content Include="AxClass\WHSWorkTableAux_Extension">
       <SubType>Content</SubType>
       <Name>WHSWorkTableAux_Extension</Name>
