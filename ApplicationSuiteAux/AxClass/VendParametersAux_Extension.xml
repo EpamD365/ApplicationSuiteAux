@@ -271,7 +271,7 @@ public final class VendParametersAux_Extension
 
             SRSPrintDestinationSettings destinationSettings = printMgmtSettings.printDestinationSettingsAux();
 
-            destinationSettings.emailTo(value);
+            destinationSettings.emailCc(value);
 
             printMgmtSettings.PrintJobSettings = destinationSettings.pack();
             printMgmtSettings.update();
@@ -297,7 +297,7 @@ public final class VendParametersAux_Extension
                 destinationSettings.printMediumType(SRSPrintMediumType::Email);
             }
 
-            res = destinationSettings.emailTo();
+            res = destinationSettings.emailCc();
         }
 
         return res;

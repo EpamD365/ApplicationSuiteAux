@@ -2,6 +2,7 @@
 <AxEdt xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns=""
 	i:type="AxEdtEnum">
 	<Name>SaveInPrintArchiveAux</Name>
+	<Extends>NoYesId</Extends>
 	<HelpText>@ApplicationSuiteAux:EDTSaveInPrintArchiveHelpText</HelpText>
 	<Label>@ApplicationSuiteAux:EDTSaveInPrintArchiveLabel</Label>
 	<ArrayElements />
