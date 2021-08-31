@@ -10,17 +10,16 @@
 final class CashRegisterFiscalTrans_WAux_Extension
 {
 }
-
 ]]></Declaration>
 		<Methods>
 			<Method>
 				<Name>findVendTrans</Name>
 				<Source><![CDATA[
     /// <summary>
-    /// Finds the Cash register fiscal transaction for the given customer transaction.
+    /// Finds the Cash register fiscal transaction for the given vendor transaction.
     /// </summary>
-    /// <param name="_custTrans">
-    /// The customer transaction.
+    /// <param name="_vendTrans">
+    /// The vendor transaction.
     /// </param>
     /// <param name="_forUpdate">
     /// A Boolean value that indicates whether to read the record for update; optional.
