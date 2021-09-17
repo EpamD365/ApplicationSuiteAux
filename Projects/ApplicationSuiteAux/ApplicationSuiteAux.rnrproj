@@ -31,17 +31,65 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Classes\" />
+    <Folder Include="EDT Enums\" />
+    <Folder Include="EDT Strings\" />
+    <Folder Include="Label Files\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AxClass\SettleAux">
+    <Content Include="ApplicationSuiteAux.en-US.label.txt">
       <SubType>Content</SubType>
-      <Name>SettleAux</Name>
-      <Link>Classes\SettleAux</Link>
+      <Name>ApplicationSuiteAux.en-US.label.txt</Name>
+      <DependentUpon>AxLabelFile\ApplicationSuiteAux_en-US</DependentUpon>
+    </Content>
+    <Content Include="AxClass\CashRegisterFiscalTrans_WAux_Extension">
+      <SubType>Content</SubType>
+      <Name>CashRegisterFiscalTrans_WAux_Extension</Name>
+      <Link>Classes\CashRegisterFiscalTrans_WAux_Extension</Link>
+    </Content>
+    <Content Include="AxClass\CustVendPDCRegisterTableAux_Extension">
+      <SubType>Content</SubType>
+      <Name>CustVendPDCRegisterTableAux_Extension</Name>
+      <Link>Classes\CustVendPDCRegisterTableAux_Extension</Link>
+    </Content>
+    <Content Include="AxClass\VendParametersAux_Extension">
+      <SubType>Content</SubType>
+      <Name>VendParametersAux_Extension</Name>
+      <Link>Classes\VendParametersAux_Extension</Link>
     </Content>
     <Content Include="AxClass\WHSWorkTableAux_Extension">
       <SubType>Content</SubType>
       <Name>WHSWorkTableAux_Extension</Name>
       <Link>Classes\WHSWorkTableAux_Extension</Link>
+    </Content>
+    <Content Include="AxEdt\EmailAddressAux">
+      <SubType>Content</SubType>
+      <Name>EmailAddressAux</Name>
+      <Link>EDT Strings\EmailAddressAux</Link>
+    </Content>
+    <Content Include="AxEdt\EmailCCAux">
+      <SubType>Content</SubType>
+      <Name>EmailCCAux</Name>
+      <Link>EDT Strings\EmailCCAux</Link>
+    </Content>
+    <Content Include="AxEdt\EmailFromAux">
+      <SubType>Content</SubType>
+      <Name>EmailFromAux</Name>
+      <Link>EDT Strings\EmailFromAux</Link>
+    </Content>
+    <Content Include="AxEdt\EmailToAux">
+      <SubType>Content</SubType>
+      <Name>EmailToAux</Name>
+      <Link>EDT Strings\EmailToAux</Link>
+    </Content>
+    <Content Include="AxEdt\SaveInPrintArchiveAux">
+      <SubType>Content</SubType>
+      <Name>SaveInPrintArchiveAux</Name>
+      <Link>EDT Enums\SaveInPrintArchiveAux</Link>
+    </Content>
+    <Content Include="AxLabelFile\ApplicationSuiteAux_en-US">
+      <SubType>Content</SubType>
+      <Name>ApplicationSuiteAux_en-US</Name>
+      <Link>Label Files\ApplicationSuiteAux_en-US</Link>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.Common.targets" />

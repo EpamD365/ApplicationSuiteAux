@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>VendParametersAux_Extension</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+/// <summary>
+/// VendParameters table extension.
+/// </summary>
+[ExtensionOf(tableStr(VendParameters))]
+public final class VendParametersAux_Extension
+{
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>vendPaymAdviceReportFormatAux</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Gets or sets vendPaymAdviceReportFormat.
+    /// </summary>
+    /// <param name = "_set">get or set.</param>
+    /// <param name = "value">value.</param>
+    /// <returns>value.</returns>
+    public edit PrintMgmtReportFormatDescription vendPaymAdviceReportFormatAux(boolean _set, PrintMgmtReportFormatDescription value)
+    {
+        PrintMgmtReportFormatDescription res = value;
+        
+        if (_set)
+        {
+            ttsbegin;
+
+            PrintMgmtSettings printMgmtSettings;
+            PrintMgmtDocInstance printMgmtDocInstance;
+            PrintMgmtReportFormat printMgmtReportFormat;
+
+            select firstonly forupdate printMgmtSettings
+                join printMgmtDocInstance
+                where printMgmtDocInstance.RecId == printMgmtSettings.ParentId
+                    && printMgmtDocInstance.DocumentType == PrintMgmtDocumentType::VendPaymAdvice;
+
+            select firstonly printMgmtReportFormat
+                where printMgmtReportFormat.Description == value;
+
+            Debug::assert(printMgmtReportFormat.RecId != 0);
+
+            if (printMgmtSettings.RecId == 0)
+            {
+                select firstonly printMgmtDocInstance
+                    where printMgmtDocInstance.DocumentType == PrintMgmtDocumentType::VendPaymAdvice;
+
+                if (printMgmtDocInstance.RecId == 0)
+                {
+                    printMgmtDocInstance.clear();
+                    printMgmtDocInstance.initValue();
+                    printMgmtDocInstance.DocumentType = PrintMgmtDocumentType::VendPaymAdvice;
+                    printMgmtDocInstance.insert();
+                }
+
+                printMgmtSettings.clear();
+                printMgmtSettings.initValue();
+                printMgmtSettings.ParentId = printMgmtDocInstance.RecId;
+                printMgmtSettings.ReportFormat = printMgmtReportFormat.RecId;
+                printMgmtSettings.insert();
+            }
+            else
+            {
+                printMgmtSettings.ReportFormat = printMgmtReportFormat.RecId;
+                printMgmtSettings.update();
+            }
+
+            ttscommit; 
+        }
+        else
+        {
+            PrintMgmtSettings printMgmtSettings;
+            PrintMgmtDocInstance printMgmtDocInstance;
+
+            select firstonly printMgmtSettings
+                join printMgmtDocInstance
+                where printMgmtDocInstance.RecId == printMgmtSettings.ParentId
+                    && printMgmtDocInstance.DocumentType == PrintMgmtDocumentType::VendPaymAdvice;
+            
+            res = PrintMgmtReportFormat::find(printMgmtSettings.ReportFormat).Description;
+        }
+
+        return res;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>vendPaymAdviceFileFormatAux</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Gets or sets vendPaymAdviceFileFormat.
+    /// </summary>
+    /// <param name = "_set">get or set.</param>
+    /// <param name = "value">value.</param>
+    /// <returns>value.</returns>
+    public edit SRSReportFileFormat vendPaymAdviceFileFormatAux(boolean _set, SRSReportFileFormat value)
+    {
+        SRSReportFileFormat res = value;
+        
+        if (_set)
+        {
+            ttsbegin;
+
+            PrintMgmtSettings printMgmtSettings;
+            PrintMgmtDocInstance printMgmtDocInstance;
+
+            select firstonly forupdate printMgmtSettings
+                join printMgmtDocInstance
+                where printMgmtDocInstance.RecId == printMgmtSettings.ParentId
+                    && printMgmtDocInstance.DocumentType == PrintMgmtDocumentType::VendPaymAdvice;
+
+            if (printMgmtSettings.RecId == 0)
+            { 
+                select firstonly printMgmtDocInstance
+                    where printMgmtDocInstance.DocumentType == PrintMgmtDocumentType::VendPaymAdvice;
+
+                if (printMgmtDocInstance.RecId == 0)
+                {
+                    printMgmtDocInstance.clear();
+                    printMgmtDocInstance.initValue();
+                    printMgmtDocInstance.DocumentType = PrintMgmtDocumentType::VendPaymAdvice;
+                    printMgmtDocInstance.insert();
+                }
+
+                printMgmtSettings.clear();
+                printMgmtSettings.initValue();
+                printMgmtSettings.ParentId = printMgmtDocInstance.RecId;
+                printMgmtSettings.insert();
+            }
+
+            SRSPrintDestinationSettings destinationSettings = printMgmtSettings.printDestinationSettingsAux();  
+
+            destinationSettings.emailAttachmentFileFormat(value);
+            destinationSettings.printMediumType(SRSPrintMediumType::Email);
+
+            printMgmtSettings.PrintJobSettings = destinationSettings.pack();
+            printMgmtSettings.update();
+
+            ttscommit;
+        }
+        else
+        {
+            PrintMgmtSettings printMgmtSettings;
+            PrintMgmtDocInstance printMgmtDocInstance;
+
+            select firstonly printMgmtSettings
+                join printMgmtDocInstance
+                where printMgmtDocInstance.RecId == printMgmtSettings.ParentId
+                    && printMgmtDocInstance.DocumentType == PrintMgmtDocumentType::VendPaymAdvice;
+
+            SRSPrintDestinationSettings destinationSettings = printMgmtSettings.printDestinationSettingsAux();
+
+            if (destinationSettings == null)
+            {
+                destinationSettings = new SRSPrintDestinationSettings();                
+                destinationSettings.printMediumType(SRSPrintMediumType::Email);
+            }
+
+            res = destinationSettings.emailAttachmentFileFormat();
+        }
+
+        return res;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>vendPaymAdviceEmailToAux</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Gets or sets vendPaymAdviceEmailTo.
+    /// </summary>
+    /// <param name = "_set">get or set.</param>
+    /// <param name = "value">value.</param>
+    /// <returns>value.</returns>
+    public edit EmailToAux vendPaymAdviceEmailToAux(boolean _set, EmailToAux value)
+    {
+        EmailToAux res = value;
+        
+        if (_set)
+        {
+            ttsbegin;
+
+            PrintMgmtSettings printMgmtSettings;
+            PrintMgmtDocInstance printMgmtDocInstance;
+
+            select firstonly forupdate printMgmtSettings
+                join printMgmtDocInstance
+                where printMgmtDocInstance.RecId == printMgmtSettings.ParentId
+                    && printMgmtDocInstance.DocumentType == PrintMgmtDocumentType::VendPaymAdvice;
+
+            if (printMgmtSettings.RecId == 0)
+            {
+                select firstonly printMgmtDocInstance
+                    where printMgmtDocInstance.DocumentType == PrintMgmtDocumentType::VendPaymAdvice;
+
+                if (printMgmtDocInstance.RecId == 0)
+                {
+                    printMgmtDocInstance.clear();
+                    printMgmtDocInstance.initValue();
+                    printMgmtDocInstance.DocumentType = PrintMgmtDocumentType::VendPaymAdvice;
+                    printMgmtDocInstance.insert();
+                }
+
+                printMgmtSettings.clear();
+                printMgmtSettings.initValue();
+                printMgmtSettings.ParentId = printMgmtDocInstance.RecId;
+                printMgmtSettings.insert();
+            }
+
+            SRSPrintDestinationSettings destinationSettings = printMgmtSettings.printDestinationSettingsAux();
+
+            destinationSettings.emailTo(value);
+            destinationSettings.printMediumType(SRSPrintMediumType::Email);
+
+            printMgmtSettings.PrintJobSettings = destinationSettings.pack();
+            printMgmtSettings.update();
+
+            ttscommit;
+        }
+        else
+        {
+            PrintMgmtSettings printMgmtSettings;
+            PrintMgmtDocInstance printMgmtDocInstance;
+
+            select firstonly printMgmtSettings
+                join printMgmtDocInstance
+                where printMgmtDocInstance.RecId == printMgmtSettings.ParentId
+                    && printMgmtDocInstance.DocumentType == PrintMgmtDocumentType::VendPaymAdvice;
+
+            SRSPrintDestinationSettings destinationSettings = printMgmtSettings.printDestinationSettingsAux();
+
+            if (destinationSettings == null)
+            {
+                destinationSettings = new SRSPrintDestinationSettings();
+                destinationSettings.printMediumType(SRSPrintMediumType::Email);
+            }
+
+            res = destinationSettings.emailTo();
+        }
+
+        return res;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>vendPaymAdviceEmailCCAux</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Gets or sets vendPaymAdviceEmailCC.
+    /// </summary>
+    /// <param name = "_set">get or set.</param>
+    /// <param name = "value">value.</param>
+    /// <returns>value.</returns>
+    public edit EmailCCAux vendPaymAdviceEmailCCAux(boolean _set, EmailCCAux value)
+    {
+        EmailCCAux res = value;
+        
+        if (_set)
+        {
+            ttsbegin;
+
+            PrintMgmtSettings printMgmtSettings;
+            PrintMgmtDocInstance printMgmtDocInstance;
+
+            select firstonly forupdate printMgmtSettings
+                join printMgmtDocInstance
+                where printMgmtDocInstance.RecId == printMgmtSettings.ParentId
+                    && printMgmtDocInstance.DocumentType == PrintMgmtDocumentType::VendPaymAdvice;
+
+            if (printMgmtSettings.RecId == 0)
+            {
+                select firstonly printMgmtDocInstance
+                    where printMgmtDocInstance.DocumentType == PrintMgmtDocumentType::VendPaymAdvice;
+
+                if (printMgmtDocInstance.RecId == 0)
+                {
+                    printMgmtDocInstance.clear();
+                    printMgmtDocInstance.initValue();
+                    printMgmtDocInstance.DocumentType = PrintMgmtDocumentType::VendPaymAdvice;
+                    printMgmtDocInstance.insert();
+                }
+
+                printMgmtSettings.clear();
+                printMgmtSettings.initValue();
+                printMgmtSettings.ParentId = printMgmtDocInstance.RecId;
+                printMgmtSettings.insert();
+            }
+
+            SRSPrintDestinationSettings destinationSettings = printMgmtSettings.printDestinationSettingsAux();
+
+            destinationSettings.emailCc(value);
+            destinationSettings.printMediumType(SRSPrintMediumType::Email);
+
+            printMgmtSettings.PrintJobSettings = destinationSettings.pack();
+            printMgmtSettings.update();
+
+            ttscommit;
+        }
+        else
+        {
+            PrintMgmtSettings printMgmtSettings;
+            PrintMgmtDocInstance printMgmtDocInstance;
+
+            select firstonly printMgmtSettings
+                join printMgmtDocInstance
+                where printMgmtDocInstance.RecId == printMgmtSettings.ParentId
+                    && printMgmtDocInstance.DocumentType == PrintMgmtDocumentType::VendPaymAdvice;
+
+            SRSPrintDestinationSettings destinationSettings = printMgmtSettings.printDestinationSettingsAux();
+
+            if (destinationSettings == null)
+            {
+                destinationSettings = new SRSPrintDestinationSettings();
+                destinationSettings.printMediumType(SRSPrintMediumType::Email);
+            }
+
+            res = destinationSettings.emailCc();
+        }
+
+        return res;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>vendPaymAdviceEmailSubjectAux</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Gets or sets vendPaymAdviceEmailSubject.
+    /// </summary>
+    /// <param name = "_set">get or set.</param>
+    /// <param name = "value">value.</param>
+    /// <returns>value.</returns>
+    public edit SysEmailSubject vendPaymAdviceEmailSubjectAux(boolean _set, SysEmailSubject value)
+    {
+        SysEmailSubject res = value;
+        
+        if (_set)
+        {
+            ttsbegin;
+
+            PrintMgmtSettings printMgmtSettings;
+            PrintMgmtDocInstance printMgmtDocInstance;
+
+            select firstonly forupdate printMgmtSettings
+                join printMgmtDocInstance
+                where printMgmtDocInstance.RecId == printMgmtSettings.ParentId
+                    && printMgmtDocInstance.DocumentType == PrintMgmtDocumentType::VendPaymAdvice;
+
+            if (printMgmtSettings.RecId == 0)
+            {
+                select firstonly printMgmtDocInstance
+                    where printMgmtDocInstance.DocumentType == PrintMgmtDocumentType::VendPaymAdvice;
+
+                if (printMgmtDocInstance.RecId == 0)
+                {
+                    printMgmtDocInstance.clear();
+                    printMgmtDocInstance.initValue();
+                    printMgmtDocInstance.DocumentType = PrintMgmtDocumentType::VendPaymAdvice;
+                    printMgmtDocInstance.insert();
+                }
+
+                printMgmtSettings.clear();
+                printMgmtSettings.initValue();
+                printMgmtSettings.ParentId = printMgmtDocInstance.RecId;
+                printMgmtSettings.insert();
+            }
+
+            SRSPrintDestinationSettings destinationSettings = printMgmtSettings.printDestinationSettingsAux();
+
+            destinationSettings.emailSubject(value);
+            destinationSettings.printMediumType(SRSPrintMediumType::Email);
+
+            printMgmtSettings.PrintJobSettings = destinationSettings.pack();
+            printMgmtSettings.update();
+
+            ttscommit;
+        }
+        else
+        {
+            PrintMgmtSettings printMgmtSettings;
+            PrintMgmtDocInstance printMgmtDocInstance;
+
+            select firstonly printMgmtSettings
+                join printMgmtDocInstance
+                where printMgmtDocInstance.RecId == printMgmtSettings.ParentId
+                    && printMgmtDocInstance.DocumentType == PrintMgmtDocumentType::VendPaymAdvice;
+
+            SRSPrintDestinationSettings destinationSettings = printMgmtSettings.printDestinationSettingsAux();
+
+            if (destinationSettings == null)
+            {
+                destinationSettings = new SRSPrintDestinationSettings();
+                destinationSettings.printMediumType(SRSPrintMediumType::Email);
+            }
+
+            res = destinationSettings.emailSubject();
+        }
+
+        return res;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>vendPaymAdviceEmailSaveToArchiveAux</Name>
+				<Source><![CDATA[
+    /// <summary>
+    /// Gets or sets vendPaymAdviceEmailSaveToArchive.
+    /// </summary>
+    /// <param name = "_set">get or set.</param>
+    /// <param name = "value">value.</param>
+    /// <returns>value.</returns>
+    public edit SaveInPrintArchiveAux vendPaymAdviceEmailSaveToArchiveAux(boolean _set, SaveInPrintArchiveAux value)
+    {
+        SaveInPrintArchiveAux res = value;
+        
+        if (_set)
+        {
+            ttsbegin;
+
+            PrintMgmtSettings printMgmtSettings;
+            PrintMgmtDocInstance printMgmtDocInstance;
+
+            select firstonly forupdate printMgmtSettings
+                join printMgmtDocInstance
+                where printMgmtDocInstance.RecId == printMgmtSettings.ParentId
+                    && printMgmtDocInstance.DocumentType == PrintMgmtDocumentType::VendPaymAdvice;
+
+            if (printMgmtSettings.RecId == 0)
+            {
+                select firstonly printMgmtDocInstance
+                    where printMgmtDocInstance.DocumentType == PrintMgmtDocumentType::VendPaymAdvice;
+
+                if (printMgmtDocInstance.RecId == 0)
+                {
+                    printMgmtDocInstance.clear();
+                    printMgmtDocInstance.initValue();
+                    printMgmtDocInstance.DocumentType = PrintMgmtDocumentType::VendPaymAdvice;
+                    printMgmtDocInstance.insert();
+                }
+
+                printMgmtSettings.clear();
+                printMgmtSettings.initValue();
+                printMgmtSettings.ParentId = printMgmtDocInstance.RecId;
+                printMgmtSettings.insert();
+            }
+
+            SRSPrintDestinationSettings destinationSettings = printMgmtSettings.printDestinationSettingsAux();
+
+            destinationSettings.parmPrintToArchive(value);
+            destinationSettings.printMediumType(SRSPrintMediumType::Email);
+
+            printMgmtSettings.PrintJobSettings = destinationSettings.pack();
+            printMgmtSettings.update();
+
+            ttscommit;
+        }
+        else
+        {
+            PrintMgmtSettings printMgmtSettings;
+            PrintMgmtDocInstance printMgmtDocInstance;
+
+            select firstonly printMgmtSettings
+                join printMgmtDocInstance
+                where printMgmtDocInstance.RecId == printMgmtSettings.ParentId
+                    && printMgmtDocInstance.DocumentType == PrintMgmtDocumentType::VendPaymAdvice;
+
+            SRSPrintDestinationSettings destinationSettings = printMgmtSettings.printDestinationSettingsAux();
+
+            if (destinationSettings == null)
+            {
+                destinationSettings = new SRSPrintDestinationSettings();
+                destinationSettings.printMediumType(SRSPrintMediumType::Email);
+            }
+
+            res = destinationSettings.parmPrintToArchive();
+        }
+
+        return res;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>
